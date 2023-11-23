@@ -3,13 +3,14 @@ customer:
   outputs:
     dev:
       type: postgres
-      # host: dummy_host
-      # user: dummy_user
-      # pass: dummy_pass
-      # port: 5432
-      dbname: dummy_db
+      host: localhost  # or the appropriate host for your database
+      user: postgres
+      pass: postgres   # Note that it should be 'pass', not 'password'
+      port: 5432
+      dbname: postgres
       schema: public
       threads: 1
+      database: postgres  # Adding the 'database' key here
 rental:
   target: dev
   outputs:
