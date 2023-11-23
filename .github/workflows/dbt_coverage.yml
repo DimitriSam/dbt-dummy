@@ -32,29 +32,24 @@ jobs:
         working-directory: ./dbt_project/customer/
         run: |
           # Define the coverage report content
-          coverage_report="| Model | Columns Covered | % |\n|:------|----------------:|:-:|\n| dbt_dev_intermediate.int_iterable_events | 0/9 | 0.0% |\n| Total | 0/9 | 0.0% |"
+    # Define the coverage report content
+          coverage_report="# Coverage report\n| Model | Columns Covered | % |\n|:------|----------------:|:-:|\n| dbt_dev_intermediate.int_iterable_events | 0/9 | 0.0% |\n| Total | 0/9 | 0.0% |"
           
-          # Write the coverage report content to a markdown file
-          echo -e "# Coverage report\n$coverage_report" > coverage_report.md
-          echo -e "# Test report\n$coverage_report" > test_report.md
-          
-          # Read the content back into a variable and replace newlines with %0A for GitHub Actions
-          doc_coverage_output=$(awk '{printf "%s\\n", $0}' coverage_report.md)
-          test_coverage_output=$(awk '{printf "%s\\n", $0}' test_report.md)
+          # Encode newlines for GitHub Actions output
+          coverage_report="${coverage_report//'%'/'%25'}" # Escape %
+          coverage_report="${coverage_report//$'\n'/'%0A'}" # Replace newline characters
+          coverage_report="${coverage_report//$'\r'/'%0D'}" # Replace carriage return characters
           
           # Set the outputs
-          echo "::set-output name=doc_coverage_output::$doc_coverage_output"
-          echo "::set-output name=test_coverage_output::$test_coverage_output"
+          echo "::set-output name=doc_coverage_output::$coverage_report"
+          echo "::set-output name=test_coverage_output::$coverage_report"
 
       - name: Comment PR with Coverage Result
         uses: thollander/actions-comment-pull-request@v2
         with:
           message: |
             **Documentation coverage output:**
-            ```
-            ${{ steps.coverage.outputs.doc_coverage_output }}
-            ```
+            ${{ fromJSON(steps.coverage.outputs.doc_coverage_output) }}
             
             **Test coverage output:**
-            
-            ${{ steps.coverage.outputs.test_coverage_output }}
+            ${{ fromJSON(steps.coverage.outputs.test_coverage_output) }}
