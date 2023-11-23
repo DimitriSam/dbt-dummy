@@ -1,0 +1,55 @@
+name: dbt Coverage
+
+on:
+  pull_request:
+    types: [ 'opened', 'edited', 'reopened', 'synchronize' ]
+    paths:
+    - "dbt_project/customer/**"
+    - ".github/workflows/dbt_coverage.yml"
+env:
+  PYTHON_VERSION: '3.8.12'
+  GCP_WORKLOAD_IDENTITY_PROVIDER: projects/237249625410/locations/global/workloadIdentityPools/github-actions/providers/github-actions-provider
+
+jobs:
+  dbt-coverage:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: "read"
+      pull-requests: "write"
+      id-token: "write"
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4.1.1
+
+      - name: Get changed files by PR
+        id: changed-files
+        uses: tj-actions/changed-files@v40.1.1
+        with:
+          files: dbt_project/models/**/*.sql
+
+      - name: Check Test and Documentation Coverage
+        id: coverage
+        working-directory: ./dbt_project/customer/
+        run: |
+          
+          coverage_report="# Coverage report\n| Model | Columns Covered | % |\n|:------|----------------:|:-:|\n| dbt_dev_intermediate.int_iterable_events | 0/9 | 0.0% |\n| Total | 0/9 | 0.0% |"
+            
+          # Process the outputs: Replace "Coverage report" with "Documentation Coverage report"
+          coverage_output="${coverage_report/Coverage report/Documentation Coverage report}"
+          test_output="${coverage_report/Coverage report/Test Coverage report}"
+
+          
+          # Write the processed outputs to .md files
+          echo -e "$coverage_output" > coverage_report.md
+          echo -e "$test_output" > test_report.md
+          
+          # Set the outputs
+          echo "::set-output name=doc_coverage_output::$(<coverage_report.md)"
+          echo "::set-output name=test_coverage_output::$(<test_report.md)"
+      - name: Comment PR with Coverage Result
+        uses: thollander/actions-comment-pull-request@v2
+        with:
+          message: |
+            ${{ steps.coverage.outputs.doc_coverage_output }}
+            
+            ${{ steps.coverage.outputs.test_coverage_output }}

@@ -3,23 +3,22 @@ customer:
   outputs:
     dev:
       type: postgres
-      host: postgres
+      host: localhost  # or the appropriate host for your database
       user: postgres
-      password: postgres
+      pass: postgres   # Note that it should be 'pass', not 'password'
       port: 5432
       dbname: postgres
       schema: public
       threads: 1
-
-shared_dbt:
+rental:
   target: dev
   outputs:
     dev:
       type: postgres
-      host: postgres
-      user: postgres
-      password: postgres
-      port: 5432
-      dbname: postgres
+      # host: dummy_host
+      # user: dummy_user
+      # pass: dummy_pass
+      # port: 5432
+      # dbname: dummy_db
       schema: public
       threads: 1

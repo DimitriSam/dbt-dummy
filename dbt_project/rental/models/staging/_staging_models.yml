@@ -1,10 +1,10 @@
 version: 2
 
 models:
-  - name: stg_payment
-    description: "Staging model consisting of payment events"
+  - name: stg_rental
+    description: "Staging model consisting of rental events"
     columns:
-      - name: payment_id
+      - name: rental_id
         tests:
           - unique
           - not_null
