@@ -1,5 +1,24 @@
 customer:
   target: dev
-
+  outputs:
+    dev:
+      type: postgres
+      # host: dummy_host
+      # user: dummy_user
+      # pass: dummy_pass
+      # port: 5432
+      # dbname: dummy_db
+      schema: public
+      threads: 1
 rental:
   target: dev
+  outputs:
+    dev:
+      type: postgres
+      # host: dummy_host
+      # user: dummy_user
+      # pass: dummy_pass
+      # port: 5432
+      # dbname: dummy_db
+      schema: public
+      threads: 1
