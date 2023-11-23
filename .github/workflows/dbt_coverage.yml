@@ -31,11 +31,20 @@ jobs:
         id: coverage
         working-directory: ./dbt_project/customer/
         run: |
+          # Define the coverage report content
           coverage_report="| Model | Columns Covered | % |\n|:------|----------------:|:-:|\n| dbt_dev_intermediate.int_iterable_events | 0/9 | 0.0% |\n| Total | 0/9 | 0.0% |"
-          echo -e "# Coverage report\n${coverage_report}" > coverage_report.md
-          echo -e "# Coverage report\n${coverage_report}" > test_report.md
-          echo "::set-output name=coverage_report_path::$(pwd)/coverage_report.md"
-          echo "::set-output name=test_report_path::$(pwd)/test_report.md"
+          
+          # Write the coverage report content to a markdown file
+          echo -e "# Coverage report\n$coverage_report" > coverage_report.md
+          echo -e "# Test report\n$coverage_report" > test_report.md
+          
+          # Read the content back into a variable and replace newlines with %0A for GitHub Actions
+          doc_coverage_output=$(awk '{printf "%s\\n", $0}' coverage_report.md)
+          test_coverage_output=$(awk '{printf "%s\\n", $0}' test_report.md)
+          
+          # Set the outputs
+          echo "::set-output name=doc_coverage_output::$doc_coverage_output"
+          echo "::set-output name=test_coverage_output::$test_coverage_output"
 
       - name: Comment PR with Coverage Result
         uses: thollander/actions-comment-pull-request@v2
@@ -43,10 +52,10 @@ jobs:
           message: |
             **Documentation coverage output:**
             ```
-            $(cat ${{ steps.coverage.outputs.coverage_report_path }})
+            ${{ steps.coverage.outputs.doc_coverage_output }}
             ```
             
             **Test coverage output:**
             ```
-            $(cat ${{ steps.coverage.outputs.test_report_path }})
+            ${{ steps.coverage.outputs.test_coverage_output }}
             ```
