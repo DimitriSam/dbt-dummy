@@ -38,23 +38,20 @@ jobs:
           echo -e "$coverage_report" > coverage_report.md
           echo -e "$coverage_report" > test_report.md
           
-          # Use 'echo -e' to interpret backslash escapes and set the environment variables
-          echo -e "COVERAGE_REPORT<<EOF" >> $GITHUB_ENV
+          # Append the file content to the environment variables
+          echo "COVERAGE_REPORT<<EOF" >> $GITHUB_ENV
           cat coverage_report.md >> $GITHUB_ENV
-          echo -e "EOF" >> $GITHUB_ENV
-          echo -e "TEST_REPORT<<EOF" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+          echo "TEST_REPORT<<EOF" >> $GITHUB_ENV
           cat test_report.md >> $GITHUB_ENV
-          echo -e "EOF" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
 
       - name: Comment PR with Coverage Result
         uses: thollander/actions-comment-pull-request@v2
         with:
           message: |
             **Documentation coverage output:**
-            ```
             ${{ env.COVERAGE_REPORT }}
-            ```
             
             **Test coverage output:**
-      
             ${{ env.TEST_REPORT }}
