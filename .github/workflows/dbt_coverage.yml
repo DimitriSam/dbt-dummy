@@ -35,8 +35,8 @@ jobs:
           coverage_report="# Coverage report\n| Model | Columns Covered | % |\n|:------|----------------:|:-:|\n| dbt_dev_intermediate.int_iterable_events | 0/9 | 0.0% |\n| Total | 0/9 | 0.0% |"
             
           # Process the outputs: Replace "Coverage report" with "Documentation Coverage report"
-          coverage_output="${coverage_report//Coverage report/Documentation Coverage report}"
-          test_output="${coverage_report//Coverage report/Test Coverage report}"
+          coverage_output="${coverage_report/Coverage report/Documentation Coverage report}"
+          test_output="${coverage_report/Coverage report/Test Coverage report}"
 
           
           # Write the processed outputs to .md files
