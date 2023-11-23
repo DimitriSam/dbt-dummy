@@ -52,18 +52,13 @@ jobs:
             echo "# Test Coverage report\nNo files found to check coverage." > test_report.md
           fi
           
-          # Append the file content to the environment variables
-          echo "COVERAGE_REPORT<<EOF" >> $GITHUB_ENV
-          cat coverage_report.md >> $GITHUB_ENV
-          echo "EOF" >> $GITHUB_ENV
-          echo "TEST_REPORT<<EOF" >> $GITHUB_ENV
-          cat test_report.md >> $GITHUB_ENV
-          echo "EOF" >> $GITHUB_ENV
+          echo "::set-output name=doc_coverage_output::$coverage_output"
+          echo "::set-output name=test_coverage_output::$test_output"
 
       - name: Comment PR with Coverage Result
         uses: thollander/actions-comment-pull-request@v2
         with:
           message: |
-            ${{ env.COVERAGE_REPORT }}
+            ${{ steps.coverage.outputs.doc_coverage_output }}
             
-            ${{ env.TEST_REPORT }}
+            ${{ steps.coverage.outputs.test_coverage_output }}
