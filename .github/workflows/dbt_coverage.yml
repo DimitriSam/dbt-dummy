@@ -33,21 +33,16 @@ jobs:
         run: |
           coverage_report="# Coverage report\n| Model | Columns Covered | % |\n|:------|----------------:|:-:|\n| dbt_dev_intermediate.int_iterable_events | 0/9 | 0.0% |\n| Total | 0/9 | 0.0% |"
           
-          # Simulate checking if there are files that would have been filtered
-          if [[ ${#model_path_filters[@]} -gt 0 ]]; then
-            # Normally you would run coverage commands here
-            # Instead, we're just setting the output to the coverage report
-            echo "Documentation Coverage Output:"
-            echo "$coverage_report"
-            echo "Test Coverage Output:"
-            echo "$coverage_report"
-            echo "::set-output name=doc_coverage_output::$coverage_report"
-            echo "::set-output name=test_coverage_output::$coverage_report"
-          else
-            echo "No files found to check coverage."
-            echo "::set-output name=doc_coverage_output::No documentation coverage to report."
-            echo "::set-output name=test_coverage_output::No test coverage to report."
-          fi
+
+          # Normally you would run coverage commands here
+          # Instead, we're just setting the output to the coverage report
+          echo "Documentation Coverage Output:"
+          echo "$coverage_report"
+          echo "Test Coverage Output:"
+          echo "$coverage_report"
+          echo "::set-output name=doc_coverage_output::$coverage_report"
+          echo "::set-output name=test_coverage_output::$coverage_report"
+
 
       - name: Comment PR with Coverage Result
         uses: thollander/actions-comment-pull-request@v2
