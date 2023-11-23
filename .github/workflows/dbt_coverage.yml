@@ -35,8 +35,8 @@ jobs:
           coverage_report="# Coverage report\n| Model | Columns Covered | % |\n|:------|----------------:|:-:|\n| dbt_dev_intermediate.int_iterable_events | 0/9 | 0.0% |\n| Total | 0/9 | 0.0% |"
           
           # Write the coverage report to a file
-          echo "$coverage_report" > coverage_report.md
-          echo "$coverage_report" > test_report.md
+          echo -e "$coverage_report" > coverage_report.md
+          echo -e "$coverage_report" > test_report.md
           
           # Use 'echo -e' to interpret backslash escapes and set the environment variables
           echo -e "COVERAGE_REPORT<<EOF" >> $GITHUB_ENV
@@ -54,12 +54,6 @@ jobs:
             ```
             ${{ env.COVERAGE_REPORT }}
             ```
-            # Coverage report
-            | Model | Columns Covered | % |
-            |:------|----------------:|:-:|
-            | dbt_dev_intermediate.int_iterable_events | 0/9 | 0.0% |
-            | Total | 0/9 | 0.0% |
-
             
             **Test coverage output:**
       
