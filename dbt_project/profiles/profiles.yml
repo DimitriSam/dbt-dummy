@@ -10,7 +10,6 @@ customer:
       dbname: postgres
       schema: public
       threads: 1
-      database: postgres  # Adding the 'database' key here
 rental:
   target: dev
   outputs:
