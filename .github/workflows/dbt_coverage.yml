@@ -49,13 +49,13 @@ jobs:
         working-directory: ./dbt_project/customer/
         run: |
           echo "Cleaning dbt"
-          poetry run dbt clean --profiles-dir profiles
+          poetry run dbt clean --profiles-dir ../profiles
           echo "Debugging dbt deps"
-          poetry run dbt debug --profiles-dir profiles
+          poetry run dbt debug --profiles-dir ../profiles
           echo "Compiling dbt"
-          poetry run dbt deps --profiles-dir profiles
+          poetry run dbt deps --profiles-dir ../profiles
           echo "Generating dbt docs"
-          poetry run dbt docs generate --profiles-dir profiles
+          poetry run dbt docs generate --profiles-dir ../profiles
 
       - name: Get changed files by PR
         id: changed-files
@@ -65,7 +65,7 @@ jobs:
 
       - name: Check Test and Documentation Coverage
         id: coverage
-        working-directory: ./dbt_project/
+        working-directory: ./dbt_project/customer/
         run: |
           prefix="dbt_project/"
           model_path_filters=()
