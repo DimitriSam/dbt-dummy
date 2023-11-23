@@ -51,9 +51,9 @@ jobs:
         with:
           message: |
             **Documentation coverage output:**
-            ```
+            
             ${{ env.COVERAGE_REPORT }}
-            ```
+            
             
             **Test coverage output:**
             ```
