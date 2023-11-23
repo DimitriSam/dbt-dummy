@@ -7,7 +7,7 @@ customer:
       # user: dummy_user
       # pass: dummy_pass
       # port: 5432
-      # dbname: dummy_db
+      dbname: dummy_db
       schema: public
       threads: 1
 rental:
