@@ -34,9 +34,13 @@ jobs:
           # Define the coverage report content
           coverage_report="# Coverage report\n| Model | Columns Covered | % |\n|:------|----------------:|:-:|\n| dbt_dev_intermediate.int_iterable_events | 0/9 | 0.0% |\n| Total | 0/9 | 0.0% |"
           
+          # Replace "Coverage report" with "Documentation Coverage report"
+          coverage_report="${coverage_report/Coverage report/Documentation Coverage report}"
+          test_coverage_report="${coverage_report/Coverage report/Test Coverage report}"
+
           # Write the coverage report to a file
           echo -e "$coverage_report" > coverage_report.md
-          echo -e "$coverage_report" > test_report.md
+          echo -e "$test_coverage_report" > test_report.md
           
           # Append the file content to the environment variables
           echo "COVERAGE_REPORT<<EOF" >> $GITHUB_ENV
