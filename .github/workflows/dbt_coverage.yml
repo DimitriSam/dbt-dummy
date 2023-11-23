@@ -50,8 +50,6 @@ jobs:
         run: |
           echo "Cleaning dbt"
           poetry run dbt clean --profiles-dir ../profiles
-          echo "Debugging dbt deps"
-          poetry run dbt debug --profiles-dir ../profiles
           echo "Compiling dbt"
           poetry run dbt deps --profiles-dir ../profiles
           echo "Generating dbt docs"

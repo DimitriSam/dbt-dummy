@@ -2,17 +2,14 @@ customer:
   target: dev
   outputs:
     dev:
-      dataset: dbt_dev
-      job_execution_timeout_seconds: 7000  # 2 hours
-      job_retries: 1
-      location: europe-west2
-      method: oauth
-      priority: interactive
-      project: plum-platform-staging
-      threads: 4
-      type: bigquery
-      maximum_bytes_billed: 3200000000000  # ~3.2 TB
-      execution_project: plum-platform-staging
+      type: postgres
+      host: localhost  # or the appropriate host for your database
+      user: postgres
+      pass: postgres   # Note that it should be 'pass', not 'password'
+      port: 5432
+      dbname: postgres
+      schema: public
+      threads: 1
 rental:
   target: dev
   outputs:
