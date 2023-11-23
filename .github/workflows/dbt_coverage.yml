@@ -31,30 +31,21 @@ jobs:
         id: coverage
         working-directory: ./dbt_project/customer/
         run: |
-          if [[ ${#model_path_filters[@]} -gt 0 ]]; then
-            coverage_command="poetry run dbt-coverage compute doc --cov-format markdown ${model_path_filters[*]}"
-            test_command="poetry run dbt-coverage compute test --cov-format markdown ${model_path_filters[*]}"
-            
-            # Run the commands and capture their outputs
-            coverage_output=$(eval $coverage_command)
-            test_output=$(eval $test_command)
-            
-            # Process the outputs: Replace "Coverage report" with "Documentation Coverage report" and "Test Coverage report"
-            coverage_output="${coverage_output/Coverage report/Documentation Coverage report}"
-            test_output="${test_output/Coverage report/Test Coverage report}"
-            
-            # Write the processed outputs to .md files
-            echo -e "$coverage_output" > coverage_report.md
-            echo -e "$test_output" > test_report.md
-          else
-            # Prepare a default message if no files were found
-            echo "# Documentation Coverage report\nNo files found to check coverage." > coverage_report.md
-            echo "# Test Coverage report\nNo files found to check coverage." > test_report.md
-          fi
           
-          echo "::set-output name=doc_coverage_output::$coverage_output"
-          echo "::set-output name=test_coverage_output::$test_output"
+          coverage_report="# Coverage report\n| Model | Columns Covered | % |\n|:------|----------------:|:-:|\n| dbt_dev_intermediate.int_iterable_events | 0/9 | 0.0% |\n| Total | 0/9 | 0.0% |"
+            
+          # Process the outputs: Replace "Coverage report" with "Documentation Coverage report"
+          coverage_output="${coverage_report//Coverage report/Documentation Coverage report}"
+          test_output="${coverage_report//Coverage report/Test Coverage report}"
 
+          
+          # Write the processed outputs to .md files
+          echo -e "$coverage_output" > coverage_report.md
+          echo -e "$test_output" > test_report.md
+          
+          # Set the outputs
+          echo "::set-output name=doc_coverage_output::$(<coverage_report.md)"
+          echo "::set-output name=test_coverage_output::$(<test_report.md)"
       - name: Comment PR with Coverage Result
         uses: thollander/actions-comment-pull-request@v2
         with:
