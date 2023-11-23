@@ -50,12 +50,10 @@ jobs:
           message: |
             **Documentation coverage output:**
       
-            ```
             ${{ steps.coverage.outputs.doc_coverage_output }}
-            ```
+
             
             **Test coverage output:**
       
-            ```
+            
             ${{ steps.coverage.outputs.test_coverage_output }}
-            ```
