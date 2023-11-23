@@ -32,7 +32,6 @@ jobs:
         working-directory: ./dbt_project/customer/
         run: |
           # Define the coverage report content
-    # Define the coverage report content
           coverage_report="# Coverage report\n| Model | Columns Covered | % |\n|:------|----------------:|:-:|\n| dbt_dev_intermediate.int_iterable_events | 0/9 | 0.0% |\n| Total | 0/9 | 0.0% |"
           
           # Encode newlines for GitHub Actions output
