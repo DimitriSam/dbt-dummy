@@ -43,9 +43,9 @@ jobs:
         with:
           message: |
             **Documentation coverage output:**
-            ```
+            
             $(cat coverage_report.md)
-            ```
+            
             
             **Test coverage output:**
             ```
